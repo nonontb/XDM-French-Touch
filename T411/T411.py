@@ -49,7 +49,7 @@ class T411(Indexer):
                 payload = {'username' : self.c.username,
                            'password' : self.c.password }
 
-            response = requests.post(self._getUrl('/auth'), data=payload)
+            response = requests.post(self._getUrl('/auth'), data=payload, verify=False)
             data = response.json()
             if 'error' in data:
                 self._apiToken = ''
@@ -67,7 +67,7 @@ class T411(Indexer):
         headers = { 'Authorization' : token[1] }
 
         try:
-            response = requests.get(self._getUrl(urlPath), params=params, headers=headers)
+            response = requests.get(self._getUrl(urlPath), params=params, headers=headers, verify=False)
         except requests.exceptions.RequestException:
             log.error("Error during connection on $s" % self)
             return (False, 'Please check network !', '')
@@ -134,7 +134,7 @@ class T411(Indexer):
         return self._getUrl('/torrents/download/%s' % torrentId)
 
     def _testConnection(self, username, password):
-        webResult = self._getWebResponse('/users/profile/96660867', { }, username, password)
+        webResult = self._getWebResponse('/users/profile/98271031', { }, username, password)
         
         if webResult[0] == False:
             return (False, {}, webResult[1])
